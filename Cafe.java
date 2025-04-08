@@ -1,5 +1,7 @@
 /* This is a stub for the Cafe class */
-public class Cafe extends Building{
+
+
+public class Cafe extends Building implements CafeRequirements{
 
     //attributes
     private int nCoffeeOunces; // The number of ounces of coffee remaining in inventory
@@ -15,6 +17,32 @@ public class Cafe extends Building{
      */
     public Cafe(String name, String address, int nFloors) {
         super(name, address, nFloors);
+        this.nCoffeeOunces = 1000;
+        this.nSugarPackets = 100;
+        this.nCreams = 100;
+        this.nCups = 50;
+        System.out.println("You have built a cafe: ☕");
+    }
+
+    /**
+     * overloaded constructor with no input parameters
+     */
+    public Cafe(){
+        super();
+        this.nCoffeeOunces = 1000;
+        this.nSugarPackets = 100;
+        this.nCreams = 100;
+        this.nCups = 50;
+        System.out.println("You have built a cafe: ☕");
+    }
+
+
+    /**
+     * overloaded constructor with only address as a required input parameter
+     * @param address String containing address of cafe
+     */
+    public Cafe(String address){
+        super(address);
         this.nCoffeeOunces = 1000;
         this.nSugarPackets = 100;
         this.nCreams = 100;
@@ -41,6 +69,19 @@ public class Cafe extends Building{
     }
 
     /**
+     * overloaded sellCoffee method requiring only size as a parameter. Sets default for sugar packets and creams to zero.
+     * @param size size in ounces of coffee order
+     */
+    public void sellCoffee(int size){
+        if (this.nCoffeeOunces<size||this.nCups<1){
+            restock(1000, 100, 100, 50);
+        }
+        this.nCoffeeOunces -= size;
+        this.nCups -= 1;
+    }
+
+
+    /**
      * Sets the inventory levels to the requested levels when called
      * @param nCoffeeOunces amount of coffee to restock to
      * @param nSugarPackets amount of sugar packets to restock to
@@ -52,6 +93,22 @@ public class Cafe extends Building{
         this.nSugarPackets = nSugarPackets;
         this.nCreams = nCreams;
         this.nCups = nCups;
+    }
+
+    //overriden Building methods
+
+    /**
+     * prints out all available methods in cafe
+     */
+    public void showOptions() {
+        System.out.println("Available options at " + this.name + ":\n + enter() \n + exit()\n + sellCoffee()");
+    }
+
+    /**
+     * throws exception if goToFloor is called for cafe
+     */
+    public void goToFloor(int floorNum){
+        throw new RuntimeException("You cannot move floors in the Cafe. Sorry :^(");
     }
 
     /**

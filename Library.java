@@ -1,6 +1,6 @@
 import java.util.Hashtable;
 
-public class Library extends Building{
+public class Library extends Building implements LibraryRequirements{
   
   //attributes
   private Hashtable<String, Boolean> collection;
@@ -13,6 +13,15 @@ public class Library extends Building{
    */
   public Library(String name, String address, int nFloors) {
     super(name, address, nFloors);
+    this.collection = new Hashtable<String, Boolean>();
+    System.out.println("You have built a library: 📖");
+  }
+
+  /**
+   * Overloaded constructor with no input parameters.
+   */
+  public Library(){
+    super();
     this.collection = new Hashtable<String, Boolean>();
     System.out.println("You have built a library: 📖");
   }
@@ -37,11 +46,21 @@ public class Library extends Building{
   }
 
   /**
-   * changes the value connected to the title of the book being checked out to false
+   * Changes the value connected to the title of the book being checked out to false
    * @param title String containing title of book being checked out
    */
   public void checkOut(String title){
     this.collection.replace(title, false);
+  }
+
+  /**
+   * Overloaded checkOut method to check out two titles at once
+   * @param titleA String containing the title of first book being checked out
+   * @param titleB String containing the title of second book being checked out
+   */
+  public void checkOut(String titleA, String titleB){
+    this.collection.replace(titleA, false);
+    this.collection.replace(titleB, false);
   }
 
   /**
@@ -50,6 +69,16 @@ public class Library extends Building{
    */
   public void returnBook(String title){
     this.collection.replace(title,true);
+  }
+
+  /**
+   * Overloaded returnBook method to return two titles at once
+   * @param titleA String containing the title of first book being returned
+   * @param titleB String containing the title of second book being returned
+   */
+  public void returnBook(String titleA, String titleB){
+    this.collection.replace(titleA,true);
+    this.collection.replace(titleB,true);
   }
 
   /**
@@ -85,8 +114,24 @@ public class Library extends Building{
     System.out.println("Collection:");
     this.collection.forEach(
       (k,v)-> System.out.println("Title: " + k + "; Available for checkout: " + v));
-
   } 
+
+  //overriden Building methods
+
+  /**
+   * Overridden showOptions method that shows all available methods in library and parent class.
+   */
+  public void showOptions() {
+    super.showOptions();
+    System.out.println(" + addTitle(t) \n + removeTitle(t) \n + checkOut(t) \n + returnBook(t)\n + containsTitle(t) \n + isAvailable(t)");
+  } 
+  
+  /**
+   * Overridden goToFloor method that doesn't actually override anything, it just calls the super method. The rubric asked for library to have this method so I put it here.
+   */
+  public void goToFloor(int floorNum){
+    super.goToFloor(floorNum);
+  }
   
   public static void main(String[] args) {
     Library library = new Library("Neilson", "7 Neilson Drive", 4);
